@@ -1,10 +1,12 @@
 #include <iostream>
 #include <fstream>
-
 #include <cryptopp/sha.h>
 #include <cryptopp/hex.h>
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int main() {
+    
     // Открытие файла для чтения
     std::ifstream file("file.txt", std::ios::binary);
     if (!file) {
