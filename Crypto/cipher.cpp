@@ -8,13 +8,14 @@
 #include <cryptopp/modes.h>
 #include <cryptopp/sha.h>
 #include <cryptopp/pwdbased.h> 
-
 using namespace CryptoPP;
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void encrypt(const std::string& inputFile, const std::string& outputFile, const std::string& password) {
+    
     // Создаем блок байтов для ключа шифрования
-    SecByteBlock key(AES::DEFAULT_KEYLENGTH); //DEFAULT_KEYLENGTH обычно 16 байт 
+    SecByteBlock key(AES::DEFAULT_KEYLENGTH);                                                             //DEFAULT_KEYLENGTH 16 байт 
 
     // Создаем объект PBKDF2 для выработки ключа из пароля
     PKCS12_PBKDF<SHA256> pbkdf;
@@ -22,7 +23,7 @@ void encrypt(const std::string& inputFile, const std::string& outputFile, const 
 
     // Создаем вектор инициализации
     byte iv[AES::BLOCKSIZE];
-    memset(iv, 0x00, AES::BLOCKSIZE); //BLOCKSIZE обычно 16 байт
+    memset(iv, 0x00, AES::BLOCKSIZE);                                                                     //BLOCKSIZE обычно 16 байт
 
     // Шифруем файл
     CBC_Mode<AES>::Encryption enc(key, key.size(), iv);
@@ -31,8 +32,10 @@ void encrypt(const std::string& inputFile, const std::string& outputFile, const 
                   new FileSink(outputFile.c_str())));
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void decrypt(const std::string& inputFile, const std::string& outputFile, const std::string& password) {
+    
     // Создаем блок байтов для ключа шифрования
     SecByteBlock key(AES::DEFAULT_KEYLENGTH);
 
@@ -51,9 +54,12 @@ void decrypt(const std::string& inputFile, const std::string& outputFile, const 
                   new FileSink(outputFile.c_str())));
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int main() {
+    
     std::string mode, inputFile, outputFile, password;
-    std::cout << "Введите режим работы (e(ncrypt)/d(ecrypt)): ";
+    std::cout << "Введите режим работы: e(encrypt) or d(decrypt): ";
     std::cin >> mode;
     std::cout << "Введите путь к входному файлу: ";
     std::cin >> inputFile;
@@ -61,11 +67,14 @@ int main() {
     std::cin >> outputFile;
     std::cout << "Введите пароль: ";
     std::cin >> password;
+    
     if (mode == "e") {
         encrypt(inputFile, outputFile, password);
-    } else if (mode == "d") {
+    } 
+    else if (mode == "d") {
         decrypt(inputFile, outputFile, password);
-    } else {
+    } 
+    else {
         std::cout << "Неверный режим" << std::endl;
     }
 
